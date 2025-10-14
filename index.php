@@ -1,19 +1,5 @@
-<?php
-$emailError = '';
-$passError = '';
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    if (empty($_POST['email'])) {
-        $emailError = "Email is required";
-    }
 
-    if (empty($_POST['pass'])) {
-        $passError = "Password is required";
-    }
-
-} else {
-    echo 'Error that isnot accepted';
-}
-?>
+<?php include 'validationLogin.php'; ?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -28,7 +14,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <div class="container px-4 mt-5">
 
         <h1 class="text-center">Login Page</h1>
-        <form class="row g-3 m-auto col-md-6" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>"
+        <form class="row g-3 m-auto col-md-6" action="savedb.php"
             method="POST">
             <div class="col-md-6 mb-3 w-100">
                 <label for="inputEmail4" class="form-label">Email</label>
