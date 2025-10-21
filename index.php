@@ -1,15 +1,17 @@
 <?php
+include ("config/database.php");
+include ("app/model/user.php");
 
-// Connect to database
-$connection = mysqli_connect('localhost', 'root', '', 'cms');
+$connection = connectionDB();
 
 if (!$connection) {
     echo "Connection failed";
 } else {
     // echo "Connection successful";
     //SQL => Structured Query Language
-    $get_user_table = "SELECT * FROM users";
-    $result = mysqli_query($connection, $get_user_table);
+    // $get_user_table = "SELECT * FROM users";
+    // $result = mysqli_query($connection, $get_user_table);
+    $data = getUsers($connection);
 
     //Count number of rows
     $num_of_rows = mysqli_num_rows($result);
@@ -34,6 +36,5 @@ if (!$connection) {
 
 
 }
-
 
 ?>
