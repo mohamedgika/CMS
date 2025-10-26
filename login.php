@@ -4,16 +4,23 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="./css/bootstrap.min.css">
+    <link rel="stylesheet" href="./public/css/bootstrap.min.css">
     <title>Login Page</title>
 </head>
 
 <body>
     <div class="container px-4 mt-5">
-
+        <?php
+        session_start();
+        if (isset($_SESSION['error'])) {
+            $error = $_SESSION['error'];
+            echo '<div class="alert alert-danger" role="alert">' . $error . '</div>';
+        } else {
+            $error = '';
+        }
+        ?>
         <h1 class="text-center">Login Page</h1>
-        <form class="row g-3 m-auto col-md-6" action="validationLogin.php"
-            method="POST">
+        <form class="row g-3 m-auto col-md-6" action="index.php" method="POST">
             <div class="col-md-6 mb-3 w-100">
                 <label for="inputEmail4" class="form-label">Email</label>
                 <?php
@@ -44,7 +51,7 @@
         </form>
     </div>
 
-    <script src="./js/bootstrap.min.js"></script>
+    <script src="./public/js/bootstrap.min.js"></script>
 </body>
 
 </html>

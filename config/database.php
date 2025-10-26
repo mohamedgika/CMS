@@ -1,30 +1,25 @@
 <?php
 
-namespace ConfigDB;
+namespace Config;
 class Database
 {
     private $server = "localhost";
     private $username = "root";
     private $password = "";
     private $database = "cms";
+    private $dns;
     private $connection;
 
-    function __construct()
+    public function connect()
     {
-        $connection = mysqli_connect($this->server, $this->username, $this->password, $this->database);
-        $this->connection = $connection;
-    }
-
-    public function getAll($table)
-    {
-        $data = mysqli_query($this->connection, "SELECT * FROM $table");
-        $data = mysqli_fetch_all($data);
-        return $data;
-    }
-
-    function __destruct()
-    {
-        mysqli_close($this->connection);
+        try {
+            $this->dns = "mysql:host=$this->server;dbname=$this->database";
+            $this->connection = new \PDO($this->dns, $this->username, $this->password);
+            $this->connection->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
+        } catch (\PDOException $e) {
+            echo $e->getMessage();
+        }
+        return $this->connection;
     }
 
 }

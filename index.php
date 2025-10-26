@@ -1,21 +1,24 @@
 <?php
 
-require_once "config/database.php";
-use ConfigDB\Database;
+require_once 'app/model/user.php';
+use App\Model\User;
 
+$email = $_POST['email'];
+$pass = $_POST['pass'];
 
+$user = new User();
 
-$database = new Database();
+$fetch_user = $user->login($email, $pass);
 
-$users = $database->getAll("users");
-echo "<pre>";
-print_r($users);
-
-$categories = $database->getAll("categories");
-echo "<pre>";
-print_r($categories);
-
-
-
+if (isset($fetch_user['email']) && isset($fetch_user['password']) && $fetch_user['is_admin'] == 0) {
+    session_start();
+    $_SESSION['email'] = $fetch_user['email'];
+    $_SESSION['role'] = $fetch_user['role'];
+    header("Location: home.php");
+} else {
+    session_start();
+    $_SESSION['error'] = "Invalid email or password";
+    header("Location: login.php");
+}
 
 ?>
