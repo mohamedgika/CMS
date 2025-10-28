@@ -1,24 +1,32 @@
 <?php
 
-require_once 'app/model/user.php';
-use App\Model\User;
+require_once 'config/Database.php';
+require_once 'config/Config.php';
+require_once 'app/model/User.php';
+require_once 'app/controller/AuthController.php';
 
-$email = $_POST['email'];
-$pass = $_POST['pass'];
+//Clean URI
+$uri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
+$uri = str_replace('/cms/', '', $uri);
+$uri = trim($uri, '/');
 
-$user = new User();
-
-$fetch_user = $user->login($email, $pass);
-
-if (isset($fetch_user['email']) && isset($fetch_user['password']) && $fetch_user['is_admin'] == 0) {
-    session_start();
-    $_SESSION['email'] = $fetch_user['email'];
-    $_SESSION['role'] = $fetch_user['role'];
-    header("Location: home.php");
-} else {
-    session_start();
-    $_SESSION['error'] = "Invalid email or password";
-    header("Location: login.php");
+// /
+if (empty($uri)) {
+    header("Location: " . BASE_URL . "login");
+} elseif ($uri == 'login') {
+    // Login Page
+    $AuthController = new AuthController();
+    $AuthController->login();
+} elseif($uri == 'register') {
+    $AuthController = new AuthController();
+    $AuthController->register();
 }
+elseif ($uri == 'admin') {
+    require_once 'app/view/dashboard/admin.php';
+} elseif ($uri == "golden-news") {
+    require_once 'app/view/website/home.php';
+}
+
+
 
 ?>

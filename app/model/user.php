@@ -23,12 +23,26 @@ class User
         $this->connection = $database->connect();
     }
 
+    // Read Data
     public function login($email, $password)
     {
         $query = "SELECT * FROM $this->table WHERE email = :email AND password = :password";
         $stmt = $this->connection->prepare($query);
         $stmt->bindParam(':email', $email);
         $stmt->bindParam(':password', $password);
+        $stmt->execute();
+        $result = $stmt->fetch(\PDO::FETCH_ASSOC);
+        return $result;
+    }
+
+    public function register($f_name, $l_name, $email, $password){
+        $query = "INSERT INTO $this->table (f_name, l_name, email, password) VALUES (:f_name, :l_name, :email, :password)";
+        $stmt = $this->connection->prepare($query);
+        $pass = password_hash($password, PASSWORD_DEFAULT);
+        $stmt->bindParam(':f_name', $f_name);
+        $stmt->bindParam(':l_name', $l_name);
+        $stmt->bindParam(':email', $email);
+        $stmt->bindParam(':password', $pass);
         $stmt->execute();
         $result = $stmt->fetch(\PDO::FETCH_ASSOC);
         return $result;
