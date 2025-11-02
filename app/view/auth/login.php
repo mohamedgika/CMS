@@ -57,9 +57,6 @@
     </div>
 
     <script src="./public/js/bootstrap.min.js"></script>
-    <?php
-    session_destroy();
-    ?>
 </body>
 
 </html>
