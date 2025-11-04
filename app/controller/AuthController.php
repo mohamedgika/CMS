@@ -1,4 +1,6 @@
 <?php
+namespace App\Controller;
+
 require_once 'app/model/user.php';
 use App\Model\User;
 
@@ -36,6 +38,7 @@ class AuthController
 
             if ($user) {
                 $_SESSION['user_id'] = $user['id'];
+                $_SESSION['name'] = $user['f_name'] . ' '.$user['l_name'];
                 $_SESSION['email'] = $user['email'];
                 $_SESSION['role'] = $user['role'];
                 $_SESSION['is_admin'] = $user['is_admin'];

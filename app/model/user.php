@@ -47,4 +47,12 @@ class User
         $result = $stmt->fetch(\PDO::FETCH_ASSOC);
         return $result;
     }
+
+    public function getAll(){
+        $query = "SELECT * FROM $this->table";
+        $stmt = $this->connection->prepare($query);
+        $stmt->execute();
+        $result = $stmt->fetchAll(\PDO::FETCH_ASSOC);
+        return $result;
+    }
 }
