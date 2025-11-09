@@ -62,9 +62,18 @@ if ($policy->handle() == "admin") {
         $AdminController->index();
     } elseif ($uri == "golden-news") {
         $website->index();
-    }elseif($uri == 'admin/users'){
+    } elseif ($uri == 'admin/users') {
         $user = new UserController();
         $user->index();
+    } elseif ($uri == 'admin/users/create') {
+        $user = new UserController();
+        $user->create();
+    } elseif (preg_match('/admin\/users\/edit\/(\d+)$/', $uri, $matches)) {
+        $user = new UserController();
+        $user->edit($matches[1]);
+    } elseif (preg_match('/admin\/users\/delete\/(\d+)$/', $uri, $matches)) {
+        $user = new UserController();
+        $user->delete($matches[1]);
     }
 } elseif ($policy->handle() == "guest") {
     if (empty($uri)) {

@@ -21,6 +21,30 @@
                 <div class="row mb-2">
                     <div class="col-sm-6">
                         <h1 class="m-0">Dashboard</h1>
+                        <?php
+                        if ($_SESSION['error']) {
+                            echo '<div class="alert alert-danger alert-dismissible">
+                  <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                  <h5><i class="icon fas fa-check"></i> Alert!</h5>' .
+                                $_SESSION['error']
+                                . '</div>';
+                        } else {
+                            $_SESSION['error'] = "";
+                        }
+                        ?>
+                        <?php
+                        if ($_SESSION['success']) {
+                            echo '<div class="alert alert-success alert-dismissible">
+                  <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                  <h5><i class="icon fas fa-check"></i> Alert!</h5>' .
+                                $_SESSION['success']
+                                . '</div>';
+                        } else {
+                            $_SESSION['success'] = "";
+                        }
+                        ?>
+                        <a type="button" class="btn btn-danger" href="<?php echo BASE_URL ?>admin/users/create">Create
+                            User</a>
                     </div><!-- /.col -->
                     <div class="col-sm-6">
                         <ol class="breadcrumb float-sm-right">
@@ -69,6 +93,8 @@
                                             <th>Last Name</th>
                                             <th>Email</th>
                                             <th>Role</th>
+                                            <th>Edit</th>
+                                            <th>Delete</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -81,6 +107,13 @@
                                                 <td><?php echo $user['l_name'] ?></td>
                                                 <td><?php echo $user['email'] ?></td>
                                                 <td><?php echo $user['role'] ?></td>
+                                                <td><a type="button" class="btn btn-success"
+                                                        href="<?php echo BASE_URL ?>admin/users/edit/<?php echo $user['id'] ?>">Edit</a>
+                                                </td>
+                                                <td>
+                                                    <a type="button" class="btn btn-danger"
+                                                        href="<?php echo BASE_URL ?>admin/users/delete/<?php echo $user['id'] ?>">Delete</a>
+                                                </td>
                                             </tr>
                                             <?php
                                         }
@@ -107,3 +140,9 @@
 </body>
 
 </html>
+
+
+<?php
+$_SESSION['error'] = "";
+$_SESSION['success'] = "";
+?>

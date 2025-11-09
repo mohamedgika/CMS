@@ -19,7 +19,7 @@
       <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
 
         <li class="nav-item">
-          <a href="pages/widgets.html" class="nav-link">
+          <a href="<?php echo BASE_URL; ?>admin/users" class="nav-link">
             <!-- <i class="bi bi-person-circle"></i> -->
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
               class="bi bi-person-circle" viewBox="0 0 16 16">

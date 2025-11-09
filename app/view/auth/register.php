@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="./public/css/bootstrap.min.css">
+    <link rel="stylesheet" href="http://localhost/cms/public/bootstrap/css/bootstrap.min.css">
     <title>Register Page</title>
 </head>
 
@@ -79,7 +79,7 @@
         </form>
     </div>
 
-    <script src="./public/js/bootstrap.min.js"></script>
+    <script src="http://localhost/cms/public/bootstrap/js/bootstrap.min.js"></script>
     <?php
     session_destroy();
     ?>

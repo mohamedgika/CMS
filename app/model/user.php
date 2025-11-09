@@ -35,7 +35,8 @@ class User
         return $result;
     }
 
-    public function register($f_name, $l_name, $email, $password){
+    public function register($f_name, $l_name, $email, $password)
+    {
         $query = "INSERT INTO $this->table (f_name, l_name, email, password) VALUES (:f_name, :l_name, :email, :password)";
         $stmt = $this->connection->prepare($query);
         $pass = password_hash($password, PASSWORD_DEFAULT);
@@ -48,11 +49,57 @@ class User
         return $result;
     }
 
-    public function getAll(){
+    public function getAll()
+    {
         $query = "SELECT * FROM $this->table";
         $stmt = $this->connection->prepare($query);
         $stmt->execute();
         $result = $stmt->fetchAll(\PDO::FETCH_ASSOC);
         return $result;
+    }
+
+    public function create($fname, $lname, $email, $password, $role)
+    {
+        $query = "INSERT INTO $this->table (f_name, l_name, email, password, role) VALUES (:fname, :lname, :email, :password, :role)";
+        $stmt = $this->connection->prepare($query);
+        $pass = password_hash($password, PASSWORD_DEFAULT);
+        $stmt->bindParam(':fname', $fname);
+        $stmt->bindParam(':lname', $lname);
+        $stmt->bindParam(':email', $email);
+        $stmt->bindParam(':password', $pass);
+        $stmt->bindParam(':role', $role);
+        $stmt->execute();
+        return true;
+    }
+
+    public function getById($id){
+        $query = "SELECT * FROM $this->table WHERE id = :id";
+        $stmt = $this->connection->prepare($query);
+        $stmt->bindParam(':id', $id);
+        $stmt->execute();
+        $result = $stmt->fetch(\PDO::FETCH_ASSOC);
+        return $result;
+    }
+
+    public function update($id, $fname, $lname, $email, $password, $role){
+        $query = "UPDATE $this->table SET f_name = :fname, l_name = :lname, email = :email, password = :password, role = :role WHERE id = :id";
+        $stmt = $this->connection->prepare($query);
+        $pass = password_hash($password, PASSWORD_DEFAULT);
+        $stmt->bindParam(':fname', $fname);
+        $stmt->bindParam(':lname', $lname);
+        $stmt->bindParam(':email', $email);
+        $stmt->bindParam(':password', $pass);
+        $stmt->bindParam(':role', $role);
+        $stmt->bindParam(':id', $id);
+        $stmt->execute();
+        return true;
+    }
+
+    public function delete($id){
+        $query = "DELETE FROM $this->table WHERE id = :id";
+        $stmt = $this->connection->prepare($query);
+        $stmt->bindParam(':id', $id);
+        $stmt->execute();
+        return true;
     }
 }
