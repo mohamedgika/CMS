@@ -15,7 +15,7 @@ class UserController
     public function index()
     {
         $users = $this->userModel->getAll();
-        $_SESSION['users'] = $users;
+        // $_SESSION['users'] = $users;
         require_once 'app/view/dashboard/user/index.php';
     }
 
@@ -138,4 +138,13 @@ class UserController
             $_SESSION['error'] = "Delete failed";
         }
     }
+
+    public function showCategory($id)
+    {
+        $categories = $this->userModel->categories($id);
+
+        require_once 'app/view/dashboard/user/mycategories.php';
+    }
+
+
 }

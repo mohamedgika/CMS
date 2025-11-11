@@ -11,7 +11,7 @@ class Category
 
     private $id;
     private $name;
-    private $user_id;    
+    public $user_id;
 
     public function __construct()
     {
@@ -21,7 +21,8 @@ class Category
 
 
     //Create
-    public function create($name, $user_id){
+    public function create($name, $user_id)
+    {
         $query = "INSERT INTO $this->table (name, user_id) VALUES (:name, :user_id)";
         $stmt = $this->connection->prepare($query);
         $stmt->bindParam(':name', $this->name);
@@ -30,16 +31,18 @@ class Category
     }
 
     //Read
-    public function getAll(){
+    public function getAll()
+    {
         $query = "SELECT * FROM $this->table";
         $stmt = $this->connection->prepare($query);
         $stmt->execute();
         $result = $stmt->fetchAll(\PDO::FETCH_ASSOC);
         return $result;
     }
-    
+
     //Update 
-    public function update($id, $namem, $user_id){
+    public function update($id, $namem, $user_id)
+    {
         $query = "UPDATE $this->table SET name = :name, user_id = :user_id WHERE id = :id";
         $stmt = $this->connection->prepare($query);
         $stmt->bindParam(':name', $name);
@@ -50,10 +53,34 @@ class Category
 
 
     //Delete
-    public function delete($id){
+    public function delete($id)
+    {
         $query = "DELETE FROM $this->table WHERE id = :id";
         $stmt = $this->connection->prepare($query);
         $stmt->bindParam(':id', $id);
         $stmt->execute();
     }
+
+
+
+    // BaseModel
+    public function belongsTo($tableHasRelations, $foreignKeyID, $localKeyID = 'id')
+    {
+        // select * from users where id = 32
+        $query = "SELECT * FROM $tableHasRelations WHERE $localKeyID = :foreignKeyID";
+        $stmt = $this->connection->prepare($query);
+        $stmt->bindParam(':foreignKeyID', $foreignKeyID);
+        $stmt->execute();
+        $result = $stmt->fetch(\PDO::FETCH_ASSOC);
+        return $result;
+
+    }
+
+    //User
+    public function user($user_id)
+    {
+        return $this->belongsTo('users', $user_id, 'id');
+    }
+
+
 }

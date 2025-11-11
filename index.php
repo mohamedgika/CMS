@@ -1,13 +1,18 @@
 <?php
+
+
 session_start();
 require_once 'config/Database.php';
 require_once 'config/Config.php';
+require_once 'app/model/BaseModel.php';
 require_once 'app/model/User.php';
+require_once 'app/model/Category.php';
 require_once 'app/controller/AuthController.php';
 require_once 'app/controller/AdminController.php';
 require_once 'app/controller/ErrorController.php';
 require_once 'app/controller/HomeController.php';
 require_once 'app/controller/UserController.php';
+require_once 'app/controller/CategoryController.php';
 require_once 'app/middleware/policy.php';
 
 use App\Middleware\Policy;
@@ -16,6 +21,7 @@ use App\Controller\AdminController;
 use App\Controller\ErrorController;
 use App\Controller\HomeController;
 use App\Controller\UserController;
+use App\Controller\CategoryController;
 
 //Clean URI
 $uri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
@@ -74,6 +80,12 @@ if ($policy->handle() == "admin") {
     } elseif (preg_match('/admin\/users\/delete\/(\d+)$/', $uri, $matches)) {
         $user = new UserController();
         $user->delete($matches[1]);
+    } elseif (preg_match('/admin\/user\/categories\/(\d+)$/', $uri, $matches)) {
+        $user = new UserController();
+        $user->showCategory($matches[1]);
+    } elseif ($uri == 'admin/categories') {
+        $category = new CategoryController();
+        $category->index();
     }
 } elseif ($policy->handle() == "guest") {
     if (empty($uri)) {

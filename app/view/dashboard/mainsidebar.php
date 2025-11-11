@@ -34,7 +34,7 @@
           </a>
         </li>
         <li class="nav-item">
-          <a href="pages/widgets.html" class="nav-link">
+          <a href="<?php echo BASE_URL; ?>admin/categories" class="nav-link">
             <!-- <i class="bi bi-person-circle"></i> -->
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-tag"
               viewBox="0 0 16 16">

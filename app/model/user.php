@@ -72,7 +72,8 @@ class User
         return true;
     }
 
-    public function getById($id){
+    public function getById($id)
+    {
         $query = "SELECT * FROM $this->table WHERE id = :id";
         $stmt = $this->connection->prepare($query);
         $stmt->bindParam(':id', $id);
@@ -81,7 +82,8 @@ class User
         return $result;
     }
 
-    public function update($id, $fname, $lname, $email, $password, $role){
+    public function update($id, $fname, $lname, $email, $password, $role)
+    {
         $query = "UPDATE $this->table SET f_name = :fname, l_name = :lname, email = :email, password = :password, role = :role WHERE id = :id";
         $stmt = $this->connection->prepare($query);
         $pass = password_hash($password, PASSWORD_DEFAULT);
@@ -95,11 +97,29 @@ class User
         return true;
     }
 
-    public function delete($id){
+    public function delete($id)
+    {
         $query = "DELETE FROM $this->table WHERE id = :id";
         $stmt = $this->connection->prepare($query);
         $stmt->bindParam(':id', $id);
         $stmt->execute();
         return true;
+    }
+
+    //hasMany
+    public function hasMany($tableHasRelations, $foreignKeyID, $localKeyID)
+    {
+        // select * from categories where user_id = 32
+        $query = "SELECT * FROM $tableHasRelations WHERE $foreignKeyID = :localKeyID";
+        $stmt = $this->connection->prepare($query);
+        $stmt->bindParam(':localKeyID', $localKeyID);
+        $stmt->execute();
+        $result = $stmt->fetchAll(\PDO::FETCH_ASSOC);
+        return $result;
+
+    }
+
+    public function categories($id){
+        return $this->hasMany('categories', 'user_id', $id);
     }
 }
